@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <random>
 #include "guessit.h"
 
 using namespace std;
@@ -12,9 +13,10 @@ using namespace std;
     Returns:
         number (int) : random number in range 1-100
 ***/
+static mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 int generateRandomNumber() {
     // TODO: Return the random number in range 1 to 100
-    return 100;
+    return uniform_int_distribution<int>(1, 100)(rng);
 }
 
 
@@ -26,8 +28,9 @@ int generateRandomNumber() {
 ***/
 int getPlayerGuess() {
     // TODO: Ask the player guest and return the player's number
-
-    return 1;
+    int guess;
+    cin >> guess;
+    return guess;
 }
 
 
@@ -45,9 +48,13 @@ string getAnswer(int number, int randomNumber) {
               If number is lower than randomNumber, the answer is "Your number is lower."
               If number is equal randomNumber, the answer is "Congratulation! You win."
     ***/
-    string answer;
-
-    return answer;
+    if (number > randomNumber) {
+        return "Your number is higher.";
+    }
+    if (number < randomNumber) {
+        return "Your number is lower.";
+    }
+    return "Congratulation! You win.";
 }
 
 
@@ -59,8 +66,7 @@ string getAnswer(int number, int randomNumber) {
 ***/
 bool checkSuccess(string answer) {
     // TODO: return the result after checking that player guessed right or wrong
-    
-    return true;
+    return answer == "Congratulation! You win.";
 }
 
 
@@ -72,9 +78,7 @@ bool checkSuccess(string answer) {
 ***/
 bool checkContinuePlaying(char isContinued) {
     // TODO: return result after checking player continue playing or not
-    bool result = false;
-
-    return result;
+    return isContinued == 'y' || isContinued == 'Y';
 }
 
 
@@ -87,7 +91,7 @@ bool checkContinuePlaying(char isContinued) {
 char getPlayerOpinion() {
     // TODO: Ask the player about continue playing and return the player's choice
     char isContinued;
-
+    cin >> isContinued;
     return isContinued;
 }
 
